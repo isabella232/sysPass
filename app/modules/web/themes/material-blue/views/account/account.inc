@@ -167,6 +167,21 @@ $showCustomFields = count($_getvar('customFields', 0)) > 0;
                             </div>
                         </td>
                     </tr>
+                    <?php if (!$accountAcl->isShowPass()): ?>
+                        <tr>
+                            <td class="descField"><?php echo __('Password'); ?></td>
+                            <td class="valField">
+                                <div class="lowres-title"><?php echo __('Copy Password to Clipboard'); ?></div>
+                                    <i class="material-icons btn-action clip-pass-button mdl-color-text--indigo-A200"
+                                       data-action-route="account/copyPass"
+                                       data-action-full="0"
+                                       data-action-sk="<?php echo $this->sk; ?>"
+                                       data-useclipboard="1"
+                                       data-item-id="<?php echo $gotData ? $_getvar('accountId') : ''; ?>"
+                                       data-parent-id="<?php echo $gotData ? $accountData->getParentId() : ''; ?>"><?php echo $icons->getIconClipboard()->getIcon(); ?></i>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
                     <?php if ($accountAcl->isShowPass()): ?>
                         <tr>
                             <td class="descField"><?php echo __('Password'); ?></td>
