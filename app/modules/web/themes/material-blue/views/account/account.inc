@@ -99,9 +99,10 @@ $showCustomFields = count($_getvar('customFields', 0)) > 0;
                                     required <?php echo $_getvar('disabled'); ?>>
                                 <option value=""><?php echo __('Select Client'); ?></option>
                                 <?php /** @var SelectItem $client */
-                                foreach ($_getvar('clients') as $client): ?>
+                                $clients = $_getvar('clients');
+                                foreach ($clients as $client): ?>
                                     <option
-                                            value="<?php echo $client->getId(); ?>" <?php echo ($gotData && $client->getId() === $accountData->getClientId()) ? 'selected' : ''; ?>><?php echo $client->getName(); ?></option>
+                                            value="<?php echo $client->getId(); ?>" <?php echo (($gotData && $client->getId() === $accountData->getClientId()) || (!$gotData && count($clients) == 1)) ? 'selected' : ''; ?>><?php echo $client->getName(); ?></option>
                                 <?php endforeach; ?>
                             </select>
                             <?php if ($_getvar('addClientEnabled')): ?>
@@ -125,9 +126,10 @@ $showCustomFields = count($_getvar('customFields', 0)) > 0;
                                     required <?php echo $_getvar('disabled'); ?>>
                                 <option value=""><?php echo __('Select Category'); ?></option>
                                 <?php /** @var SelectItem $category */
-                                foreach ($_getvar('categories') as $category): ?>
+                                $categories = $_getvar('categories');
+                                foreach ($categories as $category): ?>
                                     <option
-                                            value="<?php echo $category->getId(); ?>" <?php echo ($gotData && $category->getId() === $accountData->getCategoryId()) ? 'selected' : ''; ?>><?php echo $category->getName(); ?></option>
+                                            value="<?php echo $category->getId(); ?>" <?php echo (($gotData && $category->getId() === $accountData->getCategoryId()) || (!$gotData && count($categories) == 1)) ? 'selected' : ''; ?>><?php echo $category->getName(); ?></option>
                                 <?php endforeach; ?>
                             </select>
                             <?php if ($_getvar('addCategoryEnabled')): ?>
