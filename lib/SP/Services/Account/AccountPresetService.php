@@ -24,12 +24,16 @@
 
 namespace SP\Services\Account;
 
+use SP\Bootstrap;
 use SP\Config\ConfigData;
+use SP\Core\Acl\Acl;
+use SP\Core\Acl\ActionsInterface;
 use SP\Core\Exceptions\ConstraintException;
 use SP\Core\Exceptions\NoSuchPropertyException;
 use SP\Core\Exceptions\QueryException;
 use SP\Core\Exceptions\ValidationException;
 use SP\DataModel\ItemPreset\Password;
+use SP\Http\Uri;
 use SP\Mvc\Controller\Validators\PasswordValidator;
 use SP\Services\ItemPreset\ItemPresetInterface;
 use SP\Services\ItemPreset\ItemPresetService;
@@ -61,6 +65,19 @@ final class AccountPresetService
     {
         $this->itemPresetService = $itemPresetService;
         $this->configData = $configData;
+    }
+
+    /**
+     * @param $accountDetails
+     * @return string
+     */
+    public function getDeepLink($accountDetails)
+    {
+        $baseUrl = ($this->configData->getApplicationUrl() ?: Bootstrap::$WEBURI) . Bootstrap::$SUBURI;
+        $baseUrl = str_replace("api.php", "index.php", $baseUrl);
+        $deepLink = new Uri($baseUrl);
+        $deepLink->addParam('r', 'account/edit/' . $accountDetails->getId());
+        return $deepLink->getUriSigned($this->configData->getPasswordSalt());
     }
 
     /**

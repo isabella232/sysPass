@@ -66,6 +66,7 @@ final class AccountController extends ControllerBase
 
             $id = $this->apiService->getParamInt('id', true);
             $accountDetails = $this->accountService->getById($id)->getAccountVData();
+            $accountDetails->setDeepLink($this->accountPresetService->getDeepLink($accountDetails));
 
             $this->accountService->incrementViewCounter($id);
 
@@ -186,6 +187,7 @@ final class AccountController extends ControllerBase
             $accountId = $this->accountService->create($accountRequest);
 
             $accountDetails = $this->accountService->getById($accountId)->getAccountVData();
+            $accountDetails->setDeepLink($this->accountPresetService->getDeepLink($accountDetails));
 
             $this->eventDispatcher->notifyEvent('create.account',
                 new Event($this, EventMessage::factory()

@@ -156,6 +156,10 @@ class AccountVData extends DataModelBase
      * @var string
      */
     public $publicLinkHash = '';
+    /**
+     * @var string
+     */
+    public $deepLink = '';
 
     /**
      * AccountData constructor.
@@ -557,6 +561,22 @@ class AccountVData extends DataModelBase
     public function getPublicLinkHash()
     {
         return $this->publicLinkHash;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDeepLink()
+    {
+        return $this->deepLink;
+    }
+
+    /**
+     * @param string $deepLink
+     */
+    public function setDeepLink($deepLink)
+    {
+        $this->deepLink = $deepLink;
     }
 
     /**
