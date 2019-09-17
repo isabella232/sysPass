@@ -37,6 +37,7 @@ use SP\Http\Uri;
 use SP\Mvc\Controller\Validators\PasswordValidator;
 use SP\Services\ItemPreset\ItemPresetInterface;
 use SP\Services\ItemPreset\ItemPresetService;
+use SP\Util\UrlUtil;
 
 
 /**
@@ -68,16 +69,12 @@ final class AccountPresetService
     }
 
     /**
-     * @param $accountDetails
+     * @param $accountId
      * @return string
      */
-    public function getDeepLink($accountDetails)
+    public function getDeepLink($accountId)
     {
-        $baseUrl = ($this->configData->getApplicationUrl() ?: Bootstrap::$WEBURI) . Bootstrap::$SUBURI;
-        $baseUrl = str_replace("api.php", "index.php", $baseUrl);
-        $deepLink = new Uri($baseUrl);
-        $deepLink->addParam('r', 'account/edit/' . $accountDetails->getId());
-        return $deepLink->getUriSigned($this->configData->getPasswordSalt());
+        return UrlUtil::getDeepLink($this->configData, $accountId);
     }
 
     /**

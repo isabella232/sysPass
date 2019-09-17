@@ -147,6 +147,10 @@ class AccountSearchVData
      * @var int
      */
     public $publicLinkTotalCountViews;
+    /**
+     * @var string
+     */
+    public $deepLink = '';
 
     /**
      * AccountData constructor.

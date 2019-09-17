@@ -61,6 +61,7 @@ use SP\Services\Tag\TagService;
 use SP\Services\User\UpdatedMasterPassException;
 use SP\Services\User\UserService;
 use SP\Services\UserGroup\UserGroupService;
+use SP\Util\UrlUtil;
 
 /**
  * Class AccountHelper
@@ -223,6 +224,8 @@ final class AccountHelper extends HelperBase
         $this->view->assign('accountActions', $accountActionsHelper->getActionsForAccount($this->accountAcl, $accountActionsDto));
         $this->view->assign('accountActionsMenu', $accountActionsHelper->getActionsGrouppedForAccount($this->accountAcl, $accountActionsDto));
 
+        $this->view->assign('deepLink', $accountData->getDeepLink());
+
         $this->setViewCommon();
     }
 
@@ -322,23 +325,6 @@ final class AccountHelper extends HelperBase
 
         $this->view->assign('showViewCustomPass', $this->accountAcl->isShowViewPass());
         $this->view->assign('accountAcl', $this->accountAcl);
-
-        $this->view->assign('deepLink', $this->getDeepLink());
-    }
-
-    /**
-     * @return string
-     */
-    private function getDeepLink()
-    {
-        $route = Acl::getActionRoute($this->actionId) . ($this->accountId ? '/' . $this->accountId : '');
-
-        $baseUrl = ($this->configData->getApplicationUrl() ?: Bootstrap::$WEBURI) . Bootstrap::$SUBURI;
-
-        $uri = new Uri($baseUrl);
-        $uri->addParam('r', $route);
-
-        return $uri->getUriSigned($this->configData->getPasswordSalt());
     }
 
     /**

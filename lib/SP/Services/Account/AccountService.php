@@ -599,6 +599,18 @@ final class AccountService extends Service implements AccountServiceInterface
     }
 
     /**
+     * @param $accountId
+     * @param $deepLink
+     * @return bool
+     * @throws ConstraintException
+     * @throws QueryException
+     */
+    public function updateDeepLink($accountId, $deepLink)
+    {
+        return $this->accountRepository->updateDeepLink($accountId, $deepLink);
+    }
+
+    /**
      * @param $historyId
      * @param $accountId
      *

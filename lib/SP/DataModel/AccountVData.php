@@ -572,14 +572,6 @@ class AccountVData extends DataModelBase
     }
 
     /**
-     * @param string $deepLink
-     */
-    public function setDeepLink($deepLink)
-    {
-        $this->deepLink = $deepLink;
-    }
-
-    /**
      * @return string
      */
     public function getCategoryName()

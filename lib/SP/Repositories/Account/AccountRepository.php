@@ -265,6 +265,28 @@ final class AccountRepository extends Repository implements RepositoryItemInterf
     }
 
     /**
+     * @param $accountId
+     * @param $deepLink
+     * @return bool
+     * @throws ConstraintException
+     * @throws QueryException
+     */
+    public function updateDeepLink($accountId, $deepLink)
+    {
+        $query = /** @lang SQL */
+            'UPDATE Account SET 
+            deepLink = ?
+            WHERE id = ?';
+
+        $queryData = new QueryData();
+        $queryData->setQuery($query);
+        $queryData->setParams([$deepLink, $accountId]);
+        $queryData->setOnErrorMessage(__u('Error while updating deep link'));
+
+        return $this->db->doQuery($queryData)->getAffectedNumRows() === 1;
+    }
+
+    /**
      * Restaurar una cuenta desde el histórico.
      *
      * @param int $historyId El Id del registro en el histórico

@@ -69,6 +69,7 @@ use SP\Services\ServiceException;
 use SP\Services\User\UserService;
 use SP\Util\ErrorUtil;
 use SP\Util\ImageUtil;
+use SP\Util\UrlUtil;
 use SP\Util\Util;
 
 /**
@@ -254,9 +255,6 @@ final class AccountController extends ControllerBase implements CrudControllerIn
 
                 $baseUrl = ($this->configData->getApplicationUrl() ?: Bootstrap::$WEBURI) . Bootstrap::$SUBURI;
 
-                $deepLink = new Uri($baseUrl);
-                $deepLink->addParam('r', Acl::getActionRoute(ActionsInterface::ACCOUNT_VIEW) . '/' . $accountData->getId());
-
                 $this->eventDispatcher->notifyEvent('show.account.link',
                     new Event($this, EventMessage::factory()
                         ->addDescription(__u('Link viewed'))
@@ -265,7 +263,7 @@ final class AccountController extends ControllerBase implements CrudControllerIn
                         ->addDetail(__u('Agent'), $this->request->getHeader('User-Agent'))
                         ->addDetail(__u('HTTPS'), $this->request->isHttps() ? __u('ON') : __u('OFF'))
                         ->addDetail(__u('IP'), $clientAddress)
-                        ->addDetail(__u('Link'), $deepLink->getUriSigned($this->configData->getPasswordSalt()))
+                        ->addDetail(__u('Link'), $accountData->getDeepLink())
                         ->addExtra('userId', $publicLinkData->getUserId())
                         ->addExtra('notify', $publicLinkData->isNotify()))
                 );
@@ -832,6 +830,7 @@ final class AccountController extends ControllerBase implements CrudControllerIn
             $form->validate(Acl::ACCOUNT_CREATE);
 
             $accountId = $this->accountService->create($form->getItemData());
+            $this->accountService->updateDeepLink($accountId, UrlUtil::getDeepLink($this->configData, $accountId));
 
             $accountDetails = $this->accountService->getById($accountId)->getAccountVData();
 
@@ -1069,9 +1068,6 @@ final class AccountController extends ControllerBase implements CrudControllerIn
 
             $baseUrl = ($this->configData->getApplicationUrl() ?: Bootstrap::$WEBURI) . Bootstrap::$SUBURI;
 
-            $deepLink = new Uri($baseUrl);
-            $deepLink->addParam('r', Acl::getActionRoute(ActionsInterface::ACCOUNT_VIEW) . '/' . $id);
-
             $usersId = [$accountDetails->userId, $accountDetails->userEditId];
 
             $userService = $this->dic->get(UserService::class);
@@ -1083,7 +1079,7 @@ final class AccountController extends ControllerBase implements CrudControllerIn
                     ->addDetail(__u('Account'), $accountDetails->getName())
                     ->addDetail(__u('Client'), $accountDetails->getClientName())
                     ->addDetail(__u('Description'), $description)
-                    ->addDetail(__u('Link'), $deepLink->getUriSigned($this->configData->getPasswordSalt()))
+                    ->addDetail(__u('Link'), $accountDetails->getDeepLink())
                     ->addExtra('accountId', $id)
                     ->addExtra('whoId', $this->userData->getId())
                     ->setExtra('userId', $usersId)

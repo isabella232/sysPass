@@ -128,7 +128,10 @@ class AccountData extends DataModelBase implements JsonSerializable, DataModelIn
      * @var int
      */
     public $parentId = 0;
-
+    /**
+     * @var string
+     */
+    public $deepLink = '';
 
     /**
      * AccountData constructor.
@@ -523,5 +526,13 @@ class AccountData extends DataModelBase implements JsonSerializable, DataModelIn
     public function setIsPrivateGroup($isPrivateGroup)
     {
         $this->isPrivateGroup = (int)$isPrivateGroup;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDeepLink()
+    {
+        return $this->deepLink;
     }
 }

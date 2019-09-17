@@ -405,6 +405,14 @@ final class ConfigData implements JsonSerializable
      * @var string
      */
     private $applicationUrl;
+    /**
+     * @var string
+     */
+    private $polrApiKey;
+    /**
+     * @var string
+     */
+    private $polrUrl;
 
     /**
      * @return array
@@ -2208,5 +2216,21 @@ final class ConfigData implements JsonSerializable
     public function setApplicationUrl(string $applicationUrl = null)
     {
         $this->applicationUrl = $applicationUrl ? rtrim($applicationUrl, '/') : null;
+    }
+
+    /**
+     * @return string Polr API key
+     */
+    public function getPolrApiKey()
+    {
+        return $this->polrApiKey;
+    }
+
+    /**
+     * @return string Polr URL
+     */
+    public function getPolrUrl()
+    {
+        return $this->polrUrl;
     }
 }
