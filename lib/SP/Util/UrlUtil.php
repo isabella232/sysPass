@@ -22,7 +22,7 @@ final class UrlUtil
         $baseUrl = ($configData->getApplicationUrl() ?: Bootstrap::$WEBURI) . Bootstrap::$SUBURI;
         $baseUrl = str_replace("api.php", "index.php", $baseUrl);
         $deepLink = new Uri($baseUrl);
-        $deepLink->addParam('r', 'account/edit/' . $accountId);
+        $deepLink->addParam('r', 'account/view/' . $accountId);
         $uri_signed = $deepLink->getUriSigned($configData->getPasswordSalt());
 
         return self::getShortUrl($configData, $uri_signed);
