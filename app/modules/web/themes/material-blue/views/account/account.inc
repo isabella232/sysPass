@@ -174,13 +174,24 @@ $showCustomFields = count($_getvar('customFields', 0)) > 0;
                             <td class="descField"><?php echo __('Password'); ?></td>
                             <td class="valField">
                                 <div class="lowres-title"><?php echo __('Copy Password to Clipboard'); ?></div>
-                                    <i class="material-icons btn-action clip-pass-button mdl-color-text--indigo-A200"
-                                       data-action-route="account/copyPass"
-                                       data-action-full="0"
-                                       data-action-sk="<?php echo $this->sk; ?>"
-                                       data-useclipboard="1"
-                                       data-item-id="<?php echo $gotData ? $_getvar('accountId') : ''; ?>"
-                                       data-parent-id="<?php echo $gotData ? $accountData->getParentId() : ''; ?>"><?php echo $icons->getIconClipboard()->getIcon(); ?></i>
+                                <?php
+                                $accountActionsMenu = $_getvar('accountActionsMenu');
+                                if ($accountActionsMenu && count($accountActionsMenu) > 0): ?>
+                                    <div>
+                                        <?php foreach (array_reverse($accountActionsMenu) as $action): ?>
+                                            <?php if ($action->getId() == "7"): ?>
+                                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent btn-action <?php echo $action->getClassesAsString(); ?>"
+                                                    id="<?php echo $action->getId(); ?>"
+                                                    <?php foreach ($action->getData() as $key => $value): echo 'data-', $key, '="', $value, '"'; endforeach; ?>
+                                                    <?php foreach ($action->getAttributes() as $key => $value): echo $key, '="', $value, '"'; endforeach; ?>
+                                                    title="<?php echo $action->getTitle(); ?>">
+                                                    <i class="material-icons"><?php echo $action->getIcon()->getIcon(); ?></i>
+                                                    <?php echo $action->getName(); ?>
+                                                </button>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+                                    </div>
+                                <?php endif; ?>
                             </td>
                         </tr>
                     <?php endif; ?>
