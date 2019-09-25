@@ -91,7 +91,7 @@ final class AccountRepository extends Repository implements RepositoryItemInterf
         $queryData = new QueryData();
         $queryData->setMapClassName(AccountPassData::class);
         $queryData->setLimit(1);
-        $queryData->setSelect('Account.id, Account.name, Account.login, Account.pass, Account.key, Account.parentId');
+        $queryData->setSelect('Account.id, Account.name, Account.login, Account.pass, Account.key, Account.parentId, Account.deepLink');
         $queryData->setFrom('Account');
         $queryData->setWhere($queryCondition->getFilters());
         $queryData->setParams($queryCondition->getParams());

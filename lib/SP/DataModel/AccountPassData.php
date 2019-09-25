@@ -59,6 +59,10 @@ class AccountPassData extends DataModelBase implements DataModelInterface
      * @var string
      */
     public $mPassHash = '';
+    /**
+     * @var string Deep link
+     */
+    public $deepLink = '';
 
     /**
      * @return int
@@ -170,5 +174,13 @@ class AccountPassData extends DataModelBase implements DataModelInterface
     public function setMPassHash($mPassHash)
     {
         $this->mPassHash = $mPassHash;
+    }
+
+    /**
+     * @return string Deep link
+     */
+    public function getDeepLink()
+    {
+        return $this->deepLink;
     }
 }

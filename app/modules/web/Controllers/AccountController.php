@@ -663,7 +663,8 @@ final class AccountController extends ControllerBase implements CrudControllerIn
             $this->eventDispatcher->notifyEvent('show.account.pass',
                 new Event($this, EventMessage::factory()
                     ->addDescription(__u('Password viewed'))
-                    ->addDetail(__u('Account'), $account->getName()))
+                    ->addDetail(__u('Account'), $account->getName())
+                    ->addDetail(__u('Link'), $account->getDeepLink()))
             );
 
             return $this->returnJsonResponseData($data);
@@ -767,7 +768,8 @@ final class AccountController extends ControllerBase implements CrudControllerIn
         $this->eventDispatcher->notifyEvent('copy.account.pass',
             new Event($this, EventMessage::factory()
                 ->addDescription(__u('Password copied'))
-                ->addDetail(__u('Account'), $account->getName()))
+                ->addDetail(__u('Account'), $account->getName())
+                ->addDetail(__u('Link'), $account->getDeepLink()))
         );
 
         return $this->returnJsonResponseData($data);
